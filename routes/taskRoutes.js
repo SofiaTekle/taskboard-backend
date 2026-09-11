@@ -16,6 +16,14 @@ router.get("/", async (request, response) => {
 });
 
 router.post("/", async (request, response) => {
+  const { title, description, assignee, category, priority } = request.body;
+
+  if(!title || !description || !assignee || !category || !priority) {
+    return response.status(400).json({
+      error: "Alla fält måste fyllas i",
+    });
+  }
+
   try {
     const task = await createTask(request.body);
     response.status(201).json(task);
